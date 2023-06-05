@@ -1,0 +1,5 @@
+bean、dao、JDBC、service
+1、statement 有sql注入的风险。
+2、dao：不做异常处理、方法声明异常、不允许调用dao、不允许关闭connection。
+3、完成一个事务必须在同一个connection下完成，所以dao不允许关闭connection。
+4、service（事务处理）：打开关闭connection、调用dao、做异常处理。

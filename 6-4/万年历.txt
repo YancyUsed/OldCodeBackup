@@ -1,0 +1,118 @@
+package cal;
+
+public class cal {
+	public static boolean runnian(int year){
+		boolean b=false;
+		if(year%4==0&&year%100!=0||year%400==0){
+			b=true;
+		}
+		return b;
+	}
+	public static int yearDays(int year){
+		int a=0;
+		if(runnian(year)){
+			a=366;
+		}else{
+			a=365;
+		}
+		return a;
+	}
+	public static int yearMonthDays(int year,int month){
+		int a=0;
+		switch(month){
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			a=31;
+			break;
+		case 2:
+			if(runnian(year)){
+				a=29;
+			}else{
+				a=28;
+			}
+			break;
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			a=30;
+			break;
+		}
+		return a;
+	}
+	public static int dayTo2000(int year,int month){
+		int day=0;
+		if(year>=2000){
+			for(int i=2000;i<year;i++){
+				day+=yearDays(i);
+			}
+			for(int j=1;j<month;j++){
+				day+=yearMonthDays(year,j);
+			}
+		}else{
+			for(int i=year+1;i<2000;i++){
+				day+=yearDays(i);
+			}
+			for(int j=month;j<13;j++){
+				day+=yearMonthDays(year,j);
+			}
+		}
+		return day;
+	}
+	public static int weekDay(int year,int month){
+		int w=0;
+		if(year>=2000){
+			w=(6+dayTo2000(year,month))%7;
+		}else{
+			w=6-dayTo2000(year,month)%7;
+		}
+		return w;
+	}
+	public static int week(int year,int month){
+		int w=0,days=0;
+		days=weekDay(year,1);
+		for(int i=1;i<month;i++){
+			days+=yearMonthDays(year,i);
+		}
+		w=days/7+1;
+		return w;
+	}
+	public static void prtMonth(int year,int month){
+		int count=1,week=week(year,month);
+		System.out.println("\t"+year+"\t"+month);
+		System.out.println("\t日\t一\t二\t三\t四\t五\t六\t    周");
+		for(int j=0;j<weekDay(year,month);j++){
+			System.out.print("\t ");
+			count++;
+		}
+		for(int i=1;i<=yearMonthDays(year,month);i++){
+			System.out.print("\t"+i);
+			if(count%7==0){
+				System.out.println("\t"+week+"周");
+				week++;
+			}
+			if(i==yearMonthDays(year,month)&&weekDay(year,month+1)!=0) {
+				for(int k=1;k<(9-weekDay(year,month+1));k++) {
+					System.out.print("\t");
+				}
+				System.out.println(week+"周");
+			}
+			count++;			
+		}
+		System.out.println();
+	}
+	public static void prtYear(int year){
+		for(int i=1;i<13;i++){
+			prtMonth(year,i);
+		}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		prtYear(2018);
+	}
+}
