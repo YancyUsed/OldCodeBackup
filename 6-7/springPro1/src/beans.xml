@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+           default-lazy-init="true">
+         <!-- 
+          <context:component-scan base-package="com.neusoft"/>
+           -->
+           
+         <bean id="UserinfoDao" class="com.neusoft.dao.impl.UserinfoDaoBean"/>
+         <bean id="UserinfoService" class="com.neusoft.service.impl.UserinfoServiceBean" init-method="my_init" destroy-method="my_close">
+        	<property name="userinfoDao" ref="UserinfoDao"/>
+         </bean>
+         
+         
+         <!-- 静态工厂 -->
+         <bean id="UserinfoService2" class="com.neusoft.factory.UserinfoServiceFactory1" factory-method="createUserinfoService"/>
+         <!-- 普通工厂 -->
+         <bean id="UserinfoServiceFactory" class="com.neusoft.factory.UserinfoServiceFactory2"/>
+         <bean id="UserinfoService3" factory-bean="UserinfoServiceFactory" factory-method="createUserinfoService"/>
+         
+         
+
+         
+         
+</beans>
+
